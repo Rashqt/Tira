@@ -1,0 +1,13 @@
+{
+  "name": "tira-backend",
+  "version": "1.0.0",
+  "description": "Tira Chat AI Backend",
+  "main": "tira_backend.js",
+  "scripts": {
+    "start": "node tira_backend.js"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

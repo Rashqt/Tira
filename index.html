@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tira — Chat AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <pre class="ascii-header">
+┌─────────────────────────────┐
+│     ✨ T I R A — CHAT ✨     │
+└─────────────────────────────┘
+            </pre>
+        </header>
+        <div class="controls">
+            <label for="mode-select">Mode:</label>
+            <select id="mode-select">
+                <option value="friendly">Friendly</option>
+                <option value="sassy">Sassy</option>
+                <option value="genz_advice">Gen-Z Advice</option>
+                <option value="flirty_nonexplicit">Flirty & Romantic</option>
+                <option value="helpful">Helpful</option>
+            </select>
+            <label for="rudeness-slider">Rudeness (0-10):</label>
+            <input type="range" id="rudeness-slider" min="0" max="10" value="5">
+            <label for="consent-checkbox">
+                <input type="checkbox" id="consent-checkbox"> I am 18+ (required for Flirty mode)
+            </label>
+            <button id="ethics-btn">Ethics & Usage</button>
+        </div>
+        <div class="quick-replies">
+            <button class="quick-btn" data-action="Ask advice">Ask Advice</button>
+            <button class="quick-btn" data-action="Roast me">Roast Me</button>
+            <button class="quick-btn" id="flirt-btn" data-action="Flirt" disabled>Flirt</button>
+            <button class="quick-btn" data-action="Help me code">Help Me Code</button>
+        </div>
+        <div class="chat-container" id="chat-container">
+            <!-- Chat bubbles will be appended here -->
+        </div>
+        <div class="input-area">
+            <input type="text" id="message-input" placeholder="Type your message...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="ethics-modal" class="modal">
+        <div class="modal-content">
+            <h3>Ethics & Usage</h3>
+            <p>Tira is designed for fun, friendly chats. No explicit sexual content is allowed. Flirty mode is PG-13 and consensual only. If you encounter issues, use the feedback button.</p>
+            <button id="feedback-btn">Report Feedback</button>
+            <button class="close-modal">Close</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
