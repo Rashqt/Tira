@@ -1,7 +1,7 @@
 {
-  "name": "tira-backend",
+  "name": "tira",
   "version": "1.0.0",
-  "description": "Tira Chat AI Backend",
+  "description": "TIRA chatbot backend",
   "main": "tira_backend.js",
   "scripts": {
     "start": "node tira_backend.js"
@@ -11,3 +11,4 @@
     "node": ">=14.0.0"
   }
 }
+
