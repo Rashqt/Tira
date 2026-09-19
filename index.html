@@ -3,57 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark light">
     <title>Tira — Chat AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.ico">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <pre class="ascii-header">
-┌─────────────────────────────┐
-│     ✨ T I R A — CHAT ✨     │
-└─────────────────────────────┘
-            </pre>
+    <main class="app-shell container" data-state="ready">
+        <header class="app-header">
+            <div class="identity">
+                <div class="avatar avatar-tira" aria-hidden="true">T</div>
+                <div class="identity-text">
+                    <h1>TIRA</h1>
+                    <p class="eyebrow">by rashqt</p>
+                    <p class="status"><span class="status-dot" aria-hidden="true"></span><span>Ready to chat</span></p>
+                </div>
+            </div>
+            <button id="ethics-btn" class="icon-text-button" type="button" data-action="ethics" aria-haspopup="dialog">Ethics &amp; usage</button>
         </header>
-        <div class="controls">
-            <label for="mode-select">Mode:</label>
-            <select id="mode-select">
-                <option value="friendly">Friendly</option>
-                <option value="sassy">Sassy</option>
-                <option value="genz_advice">Gen-Z Advice</option>
-                <option value="flirty_nonexplicit">Flirty & Romantic</option>
-                <option value="helpful">Helpful</option>
-            </select>
-            <label for="rudeness-slider">Rudeness (0-10):</label>
-            <input type="range" id="rudeness-slider" min="0" max="10" value="5">
-            <label for="consent-checkbox">
-                <input type="checkbox" id="consent-checkbox"> I am 18+ (required for Flirty mode)
-            </label>
-            <button id="ethics-btn">Ethics & Usage</button>
-        </div>
-        <div class="quick-replies">
-            <button class="quick-btn" data-action="Ask advice">Ask Advice</button>
-            <button class="quick-btn" data-action="Roast me">Roast Me</button>
-            <button class="quick-btn" id="flirt-btn" data-action="Flirt" disabled>Flirt</button>
-            <button class="quick-btn" data-action="Help me code">Help Me Code</button>
-        </div>
-        <div class="chat-container" id="chat-container">
-            <!-- Chat bubbles will be appended here -->
-        </div>
-        <div class="input-area">
-            <input type="text" id="message-input" placeholder="Type your message...">
-            <button id="send-btn">Send</button>
-        </div>
-    </div>
 
-    <!-- Modals -->
-    <div id="ethics-modal" class="modal">
+        <section class="conversation-panel" aria-label="Conversation">
+            <div class="chat-container" id="chat-container" role="log" aria-live="polite" aria-relevant="additions" aria-label="Chat messages"></div>
+
+            <div class="welcome-state" data-state="empty">
+                <div class="welcome-mark" aria-hidden="true">✦</div>
+                <h2>Hey, it’s TIRA.</h2>
+                <p class="welcome-title">Slightly chaotic. Mostly helpful.</p>
+                <p>Talk, get advice, joke around, or switch my mood whenever.</p>
+                <div class="quick-replies" aria-label="Conversation starters">
+                    <button class="quick-btn" type="button" data-action="Talk to me">Talk to me</button>
+                    <button class="quick-btn" type="button" data-action="Ask advice">I need advice</button>
+                    <button class="quick-btn" type="button" data-action="Roast me">Make me laugh</button>
+                    <button class="quick-btn" type="button" data-action="Help me figure something out">Help me figure something out</button>
+                </div>
+            </div>
+
+            <div id="typing-indicator" class="typing-indicator" data-state="typing" hidden aria-live="polite">
+                <div class="avatar avatar-tira" aria-hidden="true">T</div>
+                <div class="typing-bubble"><span class="sr-only">TIRA is typing</span><span aria-hidden="true">• • •</span></div>
+            </div>
+            <div class="status-area" aria-live="polite">
+                <p class="message-status status-network" data-state="network-error" hidden>Connection trouble. Check your network and try again.</p>
+                <p class="message-status status-server" data-state="server-error" hidden>Something went wrong while talking to TIRA. Try again.</p>
+                <p class="message-status status-safety" data-state="safety-rejection" hidden>I can’t help with that request, but we can try a safer direction.</p>
+                <p class="message-status status-error" data-state="unexpected-error" hidden>Something unexpected happened. Please try again.</p>
+            </div>
+        </section>
+
+        <section class="controls" aria-label="Chat settings">
+            <div class="control-group mode-control">
+                <label for="mode-select">Personality</label>
+                <select id="mode-select" data-action="change-mode">
+                    <option value="friendly">Friendly — warm and easygoing</option>
+                    <option value="sassy">Sassy — playful with edge</option>
+                    <option value="genz_advice">Gen-Z Advice — current and candid</option>
+                    <option value="flirty_nonexplicit">Flirty &amp; Romantic — PG only</option>
+                    <option value="helpful">Helpful — clear and focused</option>
+                </select>
+            </div>
+            <div class="control-group range-control">
+                <label for="rudeness-slider">Rudeness</label>
+                <input type="range" id="rudeness-slider" min="0" max="10" value="5" aria-label="Rudeness level">
+                <div class="range-hints"><span>Keep it nice</span><span>Unfiltered</span></div>
+            </div>
+            <label class="consent-control" for="consent-checkbox">
+                <input type="checkbox" id="consent-checkbox">
+                <span><strong>PG flirty mode</strong><small>18+ consent required; playful, never explicit.</small></span>
+            </label>
+            <div class="control-actions">
+                <button class="secondary-button" type="button" data-action="clear">Clear conversation</button>
+                <button class="secondary-button" id="feedback-btn" type="button" data-action="feedback">Report feedback</button>
+            </div>
+        </section>
+
+        <section class="composer-area" aria-label="Message composer">
+            <form class="input-area" data-action="compose">
+                <label class="sr-only" for="message-input">Message TIRA</label>
+                <textarea id="message-input" rows="1" placeholder="Say something..." autocomplete="off" aria-describedby="composer-hint"></textarea>
+                <button id="send-btn" type="button" data-action="send" aria-label="Send message"><span class="send-arrow" aria-hidden="true">↑</span><span class="send-label">Send</span></button>
+            </form>
+            <p id="composer-hint" class="composer-hint">Enter to send · Shift + Enter for a new line</p>
+        </section>
+    </main>
+
+    <div id="ethics-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="ethics-title" aria-describedby="ethics-description" hidden>
         <div class="modal-content">
-            <h3>Ethics & Usage</h3>
-            <p>Tira is designed for fun, friendly chats. No explicit sexual content is allowed. Flirty mode is PG-13 and consensual only. If you encounter issues, use the feedback button.</p>
-            <button id="feedback-btn">Report Feedback</button>
-            <button class="close-modal">Close</button>
+            <h2 id="ethics-title">Ethics &amp; usage</h2>
+            <p id="ethics-description">TIRA is built for fun, friendly conversation. Flirty mode is optional, consensual, PG, and never explicit.</p>
+            <p>Don’t share sensitive personal information. If a response feels wrong or unsafe, use feedback and step away.</p>
+            <div class="modal-actions">
+                <button id="feedback-btn-modal" class="secondary-button" type="button" data-action="feedback">Report feedback</button>
+                <button class="close-modal" type="button">Close</button>
+            </div>
         </div>
     </div>
 
